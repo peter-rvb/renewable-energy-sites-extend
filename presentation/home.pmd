@@ -1,0 +1,53 @@
+{
+  "id" : "home",
+  "securityDomains" : [ "ManageCreateASite" ],
+  "endPoints" : [ ],
+  "presentation" : {
+    "headerSize" : "VPS_DEFAULT",
+    "title" : {
+      "type" : "title",
+      "label" : "Renewable Energy Sites Home"
+    },
+    "body" : {
+      "type" : "section",
+      "children" : [ {
+        "type" : "image",
+        "imageUri" : "https://upload.wikimedia.org/wikipedia/commons/8/80/Workday_logo.svg",
+        "sizingHint" : "THUMBNAIL",
+        "defaultPhoto" : false,
+        "userPhoto" : false
+      }, {
+        "type" : "richText",
+        "label" : "",
+        "id" : "richTextId4",
+        "value" : "<p style=\"text-align:left\"><span style=\"font-size:16px; color:black;\">View Workday Extend Renewable Energy Sites or use the <b>Create a Site</b> button <br/>to add a Workday Extend Renewable Energy Site.</span></p>"
+      }, {
+        "type" : "button",
+        "id" : "RequestAddEvent",
+        "label" : "Create a Site",
+        "taskReference" : {
+          "type" : "taskReference",
+          "taskId" : "createSite"
+        },
+        "action" : "PRIMARY"
+      }, {
+        "type" : "button",
+        "id" : "ManageSites",
+        "label" : "Manage Sites",
+        "taskReference" : {
+          "type" : "taskReference",
+          "taskId" : "manageSites"
+        },
+        "action" : "AUXILIARY"
+      } ]
+    },
+    "footer" : {
+      "type" : "footer",
+      "children" : [ {
+        "type" : "richText",
+        "enabled" : false,
+        "value" : "Powered By<br/><b>Workday Extend</b>"
+      } ]
+    }
+  }
+}

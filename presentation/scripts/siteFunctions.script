@@ -1,0 +1,31 @@
+// Energy Codes dict
+var energyCodes = {
+  "Solar": "SOL",
+  "Wind": "WIN",
+  "Geothermal": "GEO",
+  "Hydropower": "HYD",
+  "Biomass": "BIO"
+}
+
+// Get now and concat to string
+var getId = function() {
+  var today = date:getTodaysDate(date:getDateTimeZone('Europe/London'));
+  var blank = '';
+  var id = today.toString()
+    .replace(' ', blank)
+    .replace('-', blank)
+    .replace(':', blank)
+    .replace('.', blank)
+  return id
+}
+
+var getSiteId = function(energyType) {
+  var energyCode = energyCodes[energyType];
+  var id = getId();
+  var thisSiteId = energyCode + id;
+  return thisSiteId
+};
+
+{
+  "getSiteId": getSiteId
+}

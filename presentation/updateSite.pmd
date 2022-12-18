@@ -1,0 +1,130 @@
+{
+  "id" : "updateSite",
+  "securityDomains" : [ "ManageCreateASite" ],
+  "endPoints" : [ {
+    "name" : "energySite",
+    "baseUrlType" : "app",
+    "url" : "<% 'energySites/' + queryParams.energySiteId %>",
+    "authType" : "sso"
+  } ],
+  "outboundData" : {
+    "outboundEndPoints" : [ {
+      "name" : "updateSite",
+      "baseUrlType" : "app",
+      "url" : "<% 'energySites/' + energySite.id %>",
+      "authType" : "sso",
+      "httpMethod" : "PATCH",
+      "allowPutForUnchangedData" : true,
+      "onSend" : "<% console.info(json:asJSON(self.data));
+                   return self.data; %>"
+    } ]
+  },
+  "presentation" : {
+    "headerSize" : "VPS_DEFAULT",
+    "pageType" : "edit",
+    "title" : {
+      "type" : "title",
+      "label" : "Update Site | <% energySite.siteName %>",
+      "enabled" : false
+    },
+    "body" : {
+      "type" : "section",
+      "horizontal" : true,
+      "sorted" : false,
+      "children" : [ {
+        "type" : "section",
+        "horizontal" : true,
+        "children" : [ {
+          "type" : "richText",
+          "id" : "nameNew",
+          "value" : "<h2 style=\"font-size:22px\"><b><% energySite.siteName %></b></h2>",
+          "enabled" : false
+        }, {
+          "type" : "richText",
+          "id" : "siteIdNew",
+          "label" : "Site ID",
+          "value" : "<p style=\"font-size:15px\"><% energySite.siteId %></p>",
+          "enabled" : false
+        }, {
+          "type" : "richText",
+          "id" : "energyTypeNew",
+          "label" : "Renewable Energy Type",
+          "value" : "<p style=\"font-size:15px\"><% energySite.energyType %></p>",
+          "enabled" : false
+        }, {
+          "type" : "richText",
+          "id" : "locationNew",
+          "label" : "Location",
+          "value" : "<p style=\"font-size:15px\"><% energySite.location %></p>",
+          "enabled" : false,
+          "render" : true
+        }, {
+          "type" : "richText",
+          "id" : "descriptionNew",
+          "label" : "Description",
+          "value" : "<p style=\"font-size:15px\"><% energySite.description %></p>",
+          "enabled" : false,
+          "render" : true
+        }, {
+          "type" : "dropdown",
+          "id" : "operationalStatusNew",
+          "label" : "Operational Status",
+          "valueOutBinding" : "updateSite.operationalStatus",
+          "instanceList" : [ {
+            "id" : "Operational",
+            "descriptor" : "Operational"
+          }, {
+            "id" : "Non-Operational",
+            "descriptor" : "Non-Operational"
+          }, {
+            "id" : "Under Maintenance",
+            "descriptor" : "Under Maintenance"
+          }, {
+            "id" : "Decommissioned",
+            "descriptor" : "Decommissioned"
+          } ],
+          "selectedValues" : "<% energySite.operationalStatus ? [energySite.operationalStatus] : null %>",
+          "enabled" : true,
+          "required" : true
+        }, {
+          "type" : "date",
+          "id" : "operationalDateNew",
+          "label" : "Operational Date",
+          "value" : "<% energySite.operationalDate %>",
+          "valueOutBinding" : "updateSite.operationalDate",
+          "enabled" : true
+        }, {
+          "type" : "date",
+          "id" : "lastMaintenanceDateNew",
+          "label" : "Last Maintenance Date",
+          "value" : "<% energySite.lastMaintenanceDate %>",
+          "valueOutBinding" : "updateSite.lastMaintenanceDate",
+          "enabled" : true
+        }, {
+          "type" : "number",
+          "id" : "energyOutputNew",
+          "label" : "Energy Output - Watts",
+          "value" : "<% energySite.energyOutput %>",
+          "enabled" : false
+        }, {
+          "type" : "date",
+          "id" : "createdOnNew",
+          "label" : "Record Created On",
+          "value" : "<% energySite.createdOn %>",
+          "enabled" : false
+        }, {
+          "render" : false,
+          "type" : "text",
+          "id" : "createdByNew",
+          "label" : "Record Created By",
+          "value" : "<% energySite.createdBy.descriptor %>",
+          "enabled" : false
+        } ]
+      } ]
+    },
+    "footer" : {
+      "type" : "footer",
+      "children" : [ ]
+    }
+  }
+}

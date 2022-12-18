@@ -1,0 +1,150 @@
+{
+  "id" : "createSite",
+  "securityDomains" : [ "ManageCreateASite" ],
+  "include" : [ "siteFunctions.script" ],
+  "endPoints" : [ {
+    "name" : "me",
+    "baseUrlType" : "workday-staffing",
+    "url" : "workers/me",
+    "authType" : "sso"
+  } ],
+  "outboundData" : {
+    "outboundEndPoints" : [ {
+      "name" : "energySite",
+      "baseUrlType" : "app",
+      "url" : "energySites",
+      "httpMethod" : "POST",
+      "authType" : "sso",
+      "onSend" : "<% //Outbound endpoint that submits the BO
+                   //self.data is the payload as it exists coming into this onSend event
+                   self.data.put('createdBy',{'id':me.id}); //add createdBy object
+                   self.data.createdBy.id = me.id; //add a createdBy value to our payload
+
+                   //var today = date:getTodaysDate(date:getDateTimeZone('Europe/London'))
+                   self.data.put('createdOn', date:getTodaysDate(date:getDateTimeZone('Europe/London')));
+                   //self.data.createdOn = ;
+
+                   //var thisSiteId = siteFunctions.getSiteId(self.data.energyType)
+                   self.data.put('siteId', siteFunctions.getSiteId(self.data.energyType));
+                   //self.data.siteId = ;
+
+                   console.info(json:asJSON(self.data)); // log payload to the analytics console
+                   return self.data
+                   %>"
+    }, {
+      "name" : "createEnergySiteEvents",
+      "baseUrlType" : "app",
+      "url" : "createEnergySiteEvents",
+      "httpMethod" : "POST",
+      "authType" : "sso",
+      "onSend" : "<%
+                   //Kicks off BP. Pass in ID of the Event business object and when it is successfully created will trigger BP. Name element is the name of the BP in lower camel case + 'Events' from the .businessprocess file
+                   console.info(json:asJSON(self.data));
+                   return self.data;
+                   %>",
+      "values" : [ {
+        "outboundPath" : "businessProcessTarget.id",
+        "value" : "<% energySite.id %>"
+      } ]
+    } ]
+  },
+  "presentation" : {
+    "headerSize" : "VPS_DEFAULT",
+    "pageType" : "edit",
+    "title" : {
+      "type" : "title",
+      "label" : "Renewable Energy Site Manager",
+      "enabled" : false
+    },
+    "body" : {
+      "type" : "section",
+      "horizontal" : false,
+      "children" : [ {
+        "type" : "text",
+        "id" : "name",
+        "label" : "Site Name",
+        "required" : true,
+        "valueOutBinding" : "energySite.siteName"
+      }, {
+        "type" : "dropdown",
+        "id" : "energyType",
+        "label" : "Renewable Energy Type",
+        "required" : true,
+        "valueOutBinding" : "energySite.energyType",
+        "instanceList" : [ {
+          "id" : "Solar",
+          "descriptor" : "Solar"
+        }, {
+          "id" : "Wind",
+          "descriptor" : "Wind"
+        }, {
+          "id" : "Geothermal",
+          "descriptor" : "Geothermal"
+        }, {
+          "id" : "Hydropower",
+          "descriptor" : "Hydropower"
+        }, {
+          "id" : "Biomass",
+          "descriptor" : "Biomass"
+        } ]
+      }, {
+        "type" : "text",
+        "id" : "location",
+        "label" : "Location",
+        "required" : true,
+        "valueOutBinding" : "energySite.location"
+      }, {
+        "type" : "richText",
+        "id" : "description",
+        "label" : "Description",
+        "required" : false,
+        "valueOutBinding" : "energySite.description"
+      }, {
+        "type" : "dropdown",
+        "id" : "operationalStatus",
+        "label" : "Operational Status",
+        "required" : false,
+        "valueOutBinding" : "energySite.operationalStatus",
+        "instanceList" : [ {
+          "id" : "Operational",
+          "descriptor" : "Operational"
+        }, {
+          "id" : "Non-Operational",
+          "descriptor" : "Non-Operational"
+        }, {
+          "id" : "Under Maintenance",
+          "descriptor" : "Under Maintenance"
+        }, {
+          "id" : "Decommissioned",
+          "descriptor" : "Decommissioned"
+        } ]
+      }, {
+        "type" : "date",
+        "id" : "operationalDate",
+        "label" : "Operational Date",
+        "valueOutBinding" : "energySite.operationalDate",
+        "required" : false
+      }, {
+        "type" : "date",
+        "id" : "lastMaintenanceDate",
+        "label" : "Last Maintenance Date",
+        "valueOutBinding" : "energySite.lastMaintenanceDate",
+        "required" : false
+      }, {
+        "type" : "number",
+        "id" : "energyOutput",
+        "label" : "Energy Output - Watts",
+        "required" : false,
+        "valueOutBinding" : "energySite.energyOutput"
+      } ]
+    },
+    "footer" : {
+      "type" : "footer",
+      "children" : [ {
+        "type" : "richText",
+        "enabled" : "false",
+        "value" : "Powered By<br/><b>Workday Extend</b>"
+      } ]
+    }
+  }
+}

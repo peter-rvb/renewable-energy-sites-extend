@@ -1,0 +1,75 @@
+{
+  "id" : "viewRequestByEventID",
+  "endPoints" : [ {
+    "name" : "me",
+    "baseUrlType" : "workday-common",
+    "url" : "workers/me",
+    "authType" : "sso"
+  }, {
+    "name" : "userInfo",
+    "baseUrlType" : "workday-common",
+    "url" : "userInfo",
+    "authType" : "sso"
+  }, {
+    "baseUrlType" : "workday-wql",
+    "name" : "getRequestId",
+    "authType" : "sso",
+    "url" : "<% var query = 'SELECT businessProcessTarget FROM ' + site.applicationId + '_createEnergySiteEvents WHERE workdayID = \"' + queryParams.eventId + '\"';
+              console.info(query);
+              return 'data?query=' + query.urlEncode() %>"
+  }, {
+    "baseUrlType" : "app",
+    "name" : "energySite",
+    "authType" : "sso",
+    "url" : "<% 'energySites/' + getRequestId.data[0].businessProcessTarget.id %>",
+    "exclude" : false
+  } ],
+  "presentation" : {
+    "headerSize" : "STANDARD",
+    "title" : {
+      "type" : "title",
+      "label" : "Renewable Energy Site Details"
+    },
+    "body" : {
+      "type" : "section",
+      "horizontal" : false,
+      "title" : "Information",
+      "children" : [ {
+        "type" : "section",
+        "horizontal" : false,
+        "children" : [ {
+          "type" : "richText",
+          "id" : "nameNew",
+          "value" : "<h2 style=\"font-size:22px\"><b><% energySite.siteName %></b></h2>",
+          "enabled" : false
+        }, {
+          "type" : "text",
+          "id" : "energyType",
+          "label" : "Energy Type",
+          "value" : "<% energySite.energyType %>",
+          "enabled" : false
+        }, {
+          "type" : "text",
+          "id" : "location",
+          "label" : "Location",
+          "value" : "<% energySite.location %>",
+          "enabled" : false
+        }, {
+          "type" : "text",
+          "id" : "description",
+          "label" : "Description",
+          "value" : "<% energySite.description ? energySite.description : '' %>",
+          "enabled" : false
+        } ]
+      } ]
+    },
+    "footer" : {
+      "type" : "footer",
+      "children" : [ {
+        "type" : "richText",
+        "enabled" : "false",
+        "value" : "Powered By<br/><b>Workday Extend</b>"
+      } ]
+    }
+  }
+}

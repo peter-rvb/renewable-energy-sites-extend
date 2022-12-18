@@ -1,0 +1,94 @@
+{
+  "id": 1,
+  "name": "EnergySite",
+  "label": "Energy Site",
+  "defaultSecurityDomains": [
+    "ManageCreateASite"
+  ],
+  "defaultCollection": {
+    "name": "energySites",
+    "label": "All Energy Sites"
+  },
+  "fields": [
+    {
+      "id": 1,
+      "name": "siteName",
+      "label": "Site Name",
+      "type": "TEXT",
+      "useForDisplay": true,
+      "isReferenceId": true
+    },
+    {
+      "id": 2,
+      "name": "siteId",
+      "label": "Site ID",
+      "type": "TEXT"
+    },
+    {
+      "id": 3,
+      "name": "energyType",
+      "label": "Renewable Energy Type",
+      "type": "TEXT"
+    },
+    {
+      "id": 4,
+      "name": "location",
+      "label": "Site Location",
+      "type": "TEXT"
+    },
+    {
+      "id": 5,
+      "name": "description",
+      "label": "Site Description",
+      "type": "TEXT"
+    },
+    {
+      "id": 6,
+      "name": "operationalStatus",
+      "label": "Operational Status",
+      "type": "TEXT"
+    },
+    {
+      "id": 7,
+      "name": "operationalDate",
+      "label": "Operational Date",
+      "type": "DATE",
+      "precision": "DAY"
+    },
+    {
+      "id": 8,
+      "name": "lastMaintenanceDate",
+      "label": "Last Maintenance Date",
+      "type": "DATE",
+      "precision": "DAY"
+    },
+    {
+      "id": 9,
+      "name": "energyOutput",
+      "label": "Energy Output - Watts",
+      "type": "INTEGER"
+    },
+    {
+      "id": 10,
+      "name": "createdOn",
+      "label": "Record Created On",
+      "type": "DATE",
+      "precision": "DAY"
+    },
+    {
+      "id": 11,
+      "name": "createdBy",
+      "label": "Record Created By",
+      "type": "SINGLE_INSTANCE",
+      "target": "WORKER",
+      "secureByTarget": true
+    },
+    {
+      "id": 12,
+      "name": "officeLocation",
+      "label": "Managing Office Location",
+      "type": "SINGLE_INSTANCE",
+      "target": "LOCATION"
+    }
+  ]
+}

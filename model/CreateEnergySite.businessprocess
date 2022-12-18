@@ -1,0 +1,30 @@
+{
+  "id": 1,
+  "name": "CreateEnergySite",
+  "label": "Create Energy Site",
+  "description": "Business Process Type for Create Energy Site",
+  "targetBusinessObject": "EnergySite",
+  "allowsCancel": true,
+  "useForOrchestrate": false,
+  "approvalStep": {
+    "actions": [
+      "APPROVE",
+      "DENY",
+      "SEND_BACK"
+    ],
+    "pageRoute": "/approve/{eventId}"
+  },
+  "details": {
+    "pageRoute": "/details/{eventId}"
+  },
+  "revisePageRoute": "/revise/{eventStepId}",
+  "actionSteps": [
+    {
+      "id": 1,
+      "name": "CreateEnergySite",
+      "label": "Create Renewable Energy Site",
+      "description": "Step to review my business process",
+      "pageRoute": "/review/{eventStepId}"
+    }
+  ]
+}

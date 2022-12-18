@@ -1,0 +1,137 @@
+{
+  "id" : "manageSites",
+  "securityDomains" : [ "ManageCreateASite" ],
+  "endPoints" : [ {
+    "name" : "energySites",
+    "baseUrlType" : "app",
+    "url" : "energySites",
+    "authType" : "sso",
+    "isCollection" : "true"
+  } ],
+  "presentation" : {
+    "headerSize" : "VPS_DEFAULT",
+    "title" : {
+      "type" : "title",
+      "label" : "Manage & View Renewable Energy Sites"
+    },
+    "body" : {
+      "type" : "section",
+      "horizontal" : false,
+      "children" : [ {
+        "type" : "button",
+        "action" : "PRIMARY",
+        "label" : "Create an Energy Site",
+        "taskReference" : {
+          "taskId" : "createSite"
+        }
+      }, {
+        "type" : "button",
+        "id" : "home",
+        "label" : "Return to Home Page",
+        "taskReference" : {
+          "type" : "taskReference",
+          "taskId" : "root"
+        },
+        "action" : "AUXILIARY"
+      }, {
+        "id" : "sitesGrid",
+        "label" : "Renewable Energy Sites",
+        "type" : "grid",
+        "rows" : "<% energySites.data %>",
+        "rowVariableName" : "energySite",
+        "columns" : [ {
+          "type" : "column",
+          "columnId" : "colSiteName",
+          "label" : "Site Name",
+          "sortableAndFilterable" : true,
+          "cellTemplate" : {
+            "type" : "button",
+            "label" : "<% energySite.siteName %>",
+            "action" : "LINK",
+            "value" : "<% energySite.id %>",
+            "taskReference" : {
+              "taskId" : "updateSite",
+              "parameterBindings" : {
+                "energySiteId" : "<% energySite.id %>"
+              }
+            }
+          }
+        }, {
+          "type" : "column",
+          "columnId" : "colSiteId",
+          "label" : "Site ID",
+          "sortableAndFilterable" : true,
+          "cellTemplate" : {
+            "type" : "text",
+            "value" : "<% energySite.siteId ?: null %>"
+          }
+        }, {
+          "type" : "column",
+          "columnId" : "colEnergyType",
+          "label" : "Renewable Energy Type",
+          "sortableAndFilterable" : true,
+          "cellTemplate" : {
+            "type" : "text",
+            "value" : "<% energySite.energyType ?: null %>"
+          }
+        }, {
+          "type" : "column",
+          "columnId" : "colDescription",
+          "label" : "Description",
+          "cellTemplate" : {
+            "type" : "text",
+            "value" : "<% energySite.description ?: null %>"
+          }
+        }, {
+          "type" : "column",
+          "columnId" : "colLocation",
+          "label" : "Location",
+          "sortableAndFilterable" : true,
+          "cellTemplate" : {
+            "type" : "text",
+            "value" : "<% energySite.location ?: null %>"
+          }
+        }, {
+          "type" : "column",
+          "columnId" : "colOperationalStatus",
+          "label" : "Operational Status",
+          "sortableAndFilterable" : true,
+          "cellTemplate" : {
+            "type" : "text",
+            "value" : "<% energySite.operationalStatus ?: null %>"
+          }
+        }, {
+          "type" : "column",
+          "columnId" : "colOperationalDate",
+          "label" : "Operational Date",
+          "sortableAndFilterable" : true,
+          "cellTemplate" : {
+            "type" : "date",
+            "datePrecision" : "DAY",
+            "value" : "<% energySite.operationalDate ?: null %>"
+          }
+        }, {
+          "type" : "column",
+          "columnId" : "colOfficeLocation",
+          "label" : "Managing Office Location",
+          "sortableAndFilterable" : true,
+          "cellTemplate" : {
+            "type" : "instanceList",
+            "instanceList" : [ {
+              "id" : "<% energySite.officeLocation %>",
+              "descriptor" : "<% energySite.officeLocation.descriptor ?: '' %>"
+            } ]
+          }
+        } ]
+      } ]
+    },
+    "footer" : {
+      "type" : "footer",
+      "children" : [ {
+        "type" : "richText",
+        "enabled" : "false",
+        "value" : "Powered By<br/><b>Workday Extend</b>"
+      } ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": 2,
+  "name": "ManageSites",
+  "label": "Manage Renewable Energy Sites",
+  "routePath": "/manageSites",
+  "securityDomains": [
+    "ManageCreateASite"
+  ]
+}

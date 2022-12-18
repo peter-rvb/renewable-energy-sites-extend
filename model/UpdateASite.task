@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "name": "UpdateASite",
+  "label": "Update Renewable Energy Site",
+  "secured": true,
+  "businessObject": "EnergySite",
+  "routePath": "/energySites/{taskObjectId}/update",
+  "securityDomains": [
+    "ManageCreateASite"
+  ]
+}

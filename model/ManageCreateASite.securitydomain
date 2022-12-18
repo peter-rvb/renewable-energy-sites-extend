@@ -1,0 +1,6 @@
+{
+  "id": 1,
+  "name": "ManageCreateASite",
+  "label": "Manage: Create a Site",
+  "enabledForPageSecurity": true
+}

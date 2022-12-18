@@ -1,0 +1,85 @@
+{
+  "id": 1,
+  "name": "AllSites",
+  "label": "All Renewable Energy Sites",
+  "businessObject": "EnergySite",
+  "defaultSecurityDomains": [
+    "ManageCreateASite"
+  ],
+  "sortConfigs": [
+    {
+      "id": 1,
+      "order": "a",
+      "field": "siteName",
+      "direction": "ASCENDING"
+    }
+  ],
+  "columns": [
+    {
+      "id": 1,
+      "order": "a",
+      "name": "Site",
+      "isSelfReferencing": true
+    },
+    {
+      "id": 2,
+      "order": "b",
+      "name": "Site ID",
+      "field": "siteId"
+    },
+    {
+      "id": 3,
+      "order": "c",
+      "name": "Renewable Energy Type",
+      "field": "energyType"
+    },
+    {
+      "id": 4,
+      "order": "d",
+      "name": "Location",
+      "field": "location"
+    },
+    {
+      "id": 5,
+      "order": "e",
+      "name": "Description",
+      "field": "description"
+    },
+    {
+      "id": 6,
+      "order": "f",
+      "name": "Operational Status",
+      "field": "operationalStatus"
+    },
+    {
+      "id": 7,
+      "order": "g",
+      "name": "Operational Date",
+      "field": "operationalDate"
+    },
+    {
+      "id": 8,
+      "order": "h",
+      "name": "Last Maintenance Date",
+      "field": "lastMaintenanceDate"
+    },
+    {
+      "id": 9,
+      "order": "i",
+      "name": "Energy Output - Watts",
+      "field": "energyOutput"
+    },
+    {
+      "id": 10,
+      "order": "j",
+      "name": "Record Created On",
+      "field": "createdOn"
+    },
+    {
+      "id": 11,
+      "order": "k",
+      "name": "Record Created By",
+      "field": "createdBy"
+    }
+  ]
+}

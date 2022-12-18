@@ -1,0 +1,134 @@
+{
+  "appProperties" : [ ],
+  "flowDefinitions" : [ {
+    "id" : "createSiteFlow",
+    "flowSteps" : [ {
+      "id" : "createSite",
+      "transitions" : [ {
+        "order" : "a",
+        "value" : "manageSites",
+        "condition" : "true"
+      } ],
+      "startsFlow" : true,
+      "taskId" : "createSite"
+    }, {
+      "id" : "manageSites",
+      "endsFlow" : true,
+      "taskId" : "manageSites"
+    } ]
+  }, {
+    "id" : "updateSiteFlow",
+    "flowSteps" : [ {
+      "id" : "updateSite",
+      "transitions" : [ {
+        "order" : "a",
+        "value" : "manageSites",
+        "condition" : "true"
+      } ],
+      "startsFlow" : true,
+      "taskId" : "updateSite"
+    }, {
+      "id" : "manageSites2",
+      "endsFlow" : true,
+      "taskId" : "manageSites"
+    } ]
+  }, {
+    "id" : "actionStepFlow",
+    "flowSteps" : [ {
+      "id" : "actionStep",
+      "transitions" : [ {
+        "id" : "submitted",
+        "order" : "a",
+        "value" : "actionConfirm",
+        "condition" : "true"
+      } ],
+      "startsFlow" : true,
+      "taskId" : "energySiteActionStep"
+    }, {
+      "id" : "actionConfirm",
+      "endsFlow" : true,
+      "taskId" : "microConfirm"
+    } ]
+  } ],
+  "tasks" : [ {
+    "id" : "root",
+    "routingPattern" : "/",
+    "page" : {
+      "id" : "home"
+    }
+  }, {
+    "id" : "createSite",
+    "routingPattern" : "createSite",
+    "page" : {
+      "id" : "createSite"
+    }
+  }, {
+    "id" : "manageSites",
+    "routingPattern" : "manageSites",
+    "page" : {
+      "id" : "manageSites"
+    }
+  }, {
+    "id" : "updateSite",
+    "routingPattern" : "/energySites/{energySiteId}/update",
+    "page" : {
+      "id" : "updateSite"
+    }
+  }, {
+    "id" : "viewSite",
+    "routingPattern" : "viewSite",
+    "page" : {
+      "id" : "viewSite"
+    }
+  }, {
+    "id" : "viewRequestByEventID",
+    "routingPattern" : "/details/{eventId}",
+    "page" : {
+      "id" : "viewRequestByEventID"
+    }
+  }, {
+    "id" : "energySiteApprove",
+    "routingPattern" : "/approve/{eventId}",
+    "page" : {
+      "id" : "energySiteApprove"
+    }
+  }, {
+    "id" : "energySiteRevise",
+    "routingPattern" : "/revise/{eventStepId}",
+    "page" : {
+      "id" : "energySiteRevise"
+    }
+  }, {
+    "id" : "energySiteActionStep",
+    "routingPattern" : "/review/{eventStepId}",
+    "page" : {
+      "id" : "energySiteActionStep"
+    }
+  }, {
+    "id" : "microConfirm",
+    "routingPattern" : "/microConfirm",
+    "page" : {
+      "id" : "microConfirm"
+    }
+  } ],
+  "applicationId" : "renewableSiteInventory_qndmtj",
+  "dataProviders" : [ {
+    "key" : "app",
+    "value" : "https://api.workday.com/apps/<% site.applicationId %>/v1/"
+  }, {
+    "key" : "workday-bp",
+    "value" : "https://api.workday.com/businessProcess/v1/"
+  }, {
+    "key" : "workday-common",
+    "value" : "https://api.workday.com/common/v1/"
+  }, {
+    "key" : "workday-staffing",
+    "value" : "https://api.workday.com/staffing/v1/"
+  }, {
+    "key" : "workday-orchestration",
+    "value" : "https://api.workday.com/orchestrate/v1/apps/<% site.applicationId %>/orchestrations/"
+  }, {
+    "key" : "workday-wql",
+    "value" : "https://api.workday.com/wql/v1/"
+  } ]
+}

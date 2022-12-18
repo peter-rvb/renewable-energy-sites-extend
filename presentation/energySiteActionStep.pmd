@@ -1,0 +1,131 @@
+{
+  "id" : "energySiteActionStep",
+  "endPoints" : [ {
+    "name" : "bpEventStep",
+    "baseUrlType" : "workday-bp",
+    "url" : "<% //note the query param is mentioned in the pageRoute of the action step
+              //in the .businessprocess file --> /review/{eventStepId}. Use this syntax to grab the eventStepId path parameter
+              'eventSteps/' + queryParams.eventStepId %>",
+    "authType" : "sso"
+  }, {
+    "name" : "eventInfo",
+    "baseUrlType" : "workday-bp",
+    "url" : "<% 'events/' + bpEventStep.event.id %>",
+    "authType" : "sso"
+  }, {
+    "name" : "energySite",
+    "baseUrlType" : "app",
+    "url" : "<% 'energySites/' + eventInfo['for'].id %>",
+    "authType" : "sso"
+  }, {
+    "name" : "userInfo",
+    "baseUrlType" : "workday-common",
+    "url" : "userInfo",
+    "authType" : "sso"
+  }, {
+    "name" : "me",
+    "baseUrlType" : "workday-common",
+    "url" : "workers/me",
+    "authType" : "sso"
+  }, {
+    "name" : "locationSearch",
+    "baseUrlType" : "workday-wql",
+    "authType" : "sso",
+    "url" : "<% var query = 'SELECT workdayID as id, locationName as descriptor , subordinateLocation{workdayID as id, locationName as descriptor} FROM locations (locationUsagesForLocation = (fbe0f826480e46978f80b361d35f31df, 46db411c4a5245fbb39834d8b2cba049)) WHERE subordinateLocation is not empty';
+              console.info(query);
+              return 'data?query=' + query.urlEncode(); %>"
+  }, {
+    "name" : "subLocationSearch",
+    "baseUrlType" : "workday-wql",
+    "authType" : "sso",
+    "url" : "<% var query = 'SELECT subordinateLocation{workdayID as id, locationName as descriptor} FROM locations (locationUsagesForLocation = (fbe0f826480e46978f80b361d35f31df, 46db411c4a5245fbb39834d8b2cba049)) WHERE location=' + locationsInstanceList.promptSelections[0] + ' and subordinateLocation is not empty';
+              console.info(query);
+              return 'data?query=' + query.urlEncode(); %>",
+    "deferred" : "true"
+  } ],
+  "outboundData" : {
+    "outboundEndPoints" : [ {
+      "name" : "energySitePATCH",
+      "baseUrlType" : "app",
+      "url" : "energySites/<% eventInfo['for'].id %>",
+      "httpMethod" : "PATCH",
+      "authType" : "sso",
+      "onSend" : "<% console.info(json:asJSON(self.data)); return self.data; %>"
+    }, {
+      "name" : "submitStep",
+      "baseUrlType" : "workday-bp",
+      "url" : "eventSteps/<% queryParams.eventStepId %>/submit",
+      "httpMethod" : "POST",
+      "authType" : "sso",
+      "onSend" : "<% console.info(json:asJSON(self.data)); return self.data; %>",
+      "values" : [ {
+        "outboundPath" : "stepAction.id",
+        "value" : "<% //this action page is ultimately just a PMD; when the information is submitted we need to
+                      //advance the BP by calling the BP event with this exact value, which corresponds to the 'submit' step action ID
+                      //this WID corrresponds to the step action ID of 'submitted'
+                      'd9e4223e446c11de98360015c5e6daf6' %>"
+      } ]
+    } ]
+  },
+  "presentation" : {
+    "title" : {
+      "label" : "Renewable Energy Site Request Details",
+      "type" : "title"
+    },
+    "headerSize" : "STANDARD",
+    "body" : {
+      "type" : "section",
+      "horizontal" : false,
+      "children" : [ {
+        "type" : "richText",
+        "value" : "<hr>",
+        "enabled" : false
+      }, {
+        "type" : "section",
+        "horizontal" : false,
+        "children" : [ {
+          "type" : "richText",
+          "value" : "<h2 style=\"font-size:22px\"><b><% energySite.siteName %></b></h2>",
+          "enabled" : false
+        }, {
+          "type" : "richText",
+          "label" : "Site ID",
+          "value" : "<p style=\"font-size:15px\"><% energySite.siteId %></p>",
+          "enabled" : false
+        }, {
+          "type" : "richText",
+          "label" : "Renewable Energy Type",
+          "value" : "<p style=\"font-size:15px\"><% energySite.energyType %></p>",
+          "enabled" : false
+        }, {
+          "type" : "richText",
+          "label" : "Location",
+          "value" : "<p style=\"font-size:15px\"><% energySite.location %></p>",
+          "enabled" : false,
+          "render" : true
+        }, {
+          "type" : "richText",
+          "value" : "This energy site has been approved. Please select a managing office location for the energy site and submit.",
+          "enabled" : false
+        }, {
+          "type" : "instanceList",
+          "id" : "locationsInstanceList",
+          "multiSelect" : "false",
+          "label" : "Select an Office Location",
+          "required" : "<% true %>",
+          "values" : "<% locationSearch.data %>",
+          "monikerLevels" : [ {
+            "type" : "monikerLevel",
+            "levelValues" : "<% subLocationSearch.data[0].subordinateLocation %>",
+            "endPoint" : "<% endpoints.subLocationSearch %>"
+          } ],
+          "valueOutBinding" : "energySitePATCH.officeLocation.id"
+        } ]
+      } ]
+    },
+    "footer" : {
+      "type" : "footer",
+      "children" : [ ]
+    }
+  }
+}
