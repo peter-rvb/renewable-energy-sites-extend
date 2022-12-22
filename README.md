@@ -2,9 +2,11 @@
 
 This app creates a model business object in Workday to store information about renewable energy sites. It features pages (PMDs) to view, create, and update sites. 
 
-This app is the counterpart to the [Renewable Energy Sites](https://github.com/peter-rvb/renewable-energy-sites) app: the information on renewable energy sites is fetched by the associated React app, demonstrating how Workday Extend capabilities are brought to non-Workday systes and applications. 
+This app is the counterpart to the [Renewable Energy Sites](https://github.com/peter-rvb/renewable-energy-sites) app. The information on renewable energy sites is fetched by the associated React app, demonstrating how Workday Extend capabilities are brought to non-Workday systes and applications. 
 
 Please note this project is for demonstration and educational purposes, and is not officially supported by Workday as a production-ready application.
+
+<img width="1225" alt="manageSites pmd" src="https://user-images.githubusercontent.com/96547808/209098717-915a3113-d5e4-4a7c-83fd-8c1b645e5174.png">
 
 ### Prerequisites
 
